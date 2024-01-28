@@ -9,16 +9,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      eduID: {
+      eid: {
         type: Sequelize.INTEGER
       },
-      crsID: {
+      crsid: {
         type: Sequelize.INTEGER
       },
-      crsname: {
+      csrname: {
         type: Sequelize.STRING
       },
-      chID: {
+      chid: {
         type: Sequelize.INTEGER
       },
       createdAt: {
