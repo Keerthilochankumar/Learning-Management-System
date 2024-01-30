@@ -9,23 +9,19 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */static associate(models) {
-     Pages.belongsTo(models.User, {
-        foreignKey: "eid",
-      });
-      // define association here
-      Pages.belongsTo(models.Course, {
-        foreignKey: "crsid",
+    Pages.belongsTo(models.Chapters, {
+        foreignKey: "chId",
       });
 
-      // define association here
-      Pages.belongsTo(models.Chapters, {
-        foreignKey: "chid",
+      Pages.belongsToMany(models.User, {
+        through: models.Enroll,
+        foreignKey: "pgId",
       });
    }
 
   }
   Pages.init({
-    pgno: DataTypes.INTEGER,
+    pgtitle: DataTypes.STRING,
     pgcontent: DataTypes.STRING
   }, {
     sequelize,

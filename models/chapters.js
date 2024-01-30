@@ -11,20 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
    static associate(models) {
       // define association here
-      Chapters.belongsTo(models.User, {
-        foreignKey: "eid",
-      });
-   
-   
-      // define association here
       Chapters.belongsTo(models.Course, {
-        foreignKey: "crsid",
+        foreignKey: "csrId",
       });
-   
+
+      Chapters.hasMany(models.Pages, {
+        foreignKey: "chId",
+      });
+   }
+    static async remove(id) {
+      return this.destroy({
+        where: { id, }
+    }); 
    }
 }
   Chapters.init({
-    chid:DataTypes.INTEGER,
+    chdes: DataTypes.STRING,
     chname: DataTypes.STRING
   }, {
     sequelize,

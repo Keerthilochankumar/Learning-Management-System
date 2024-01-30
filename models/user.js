@@ -12,14 +12,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-    }
+       Users.hasMany(models.Course, {
+        foreignKey: "uId",
+      });
+       Users.belongsToMany(models.Pages, {
+        through: models.Enroll,
+        foreignKey: "uId",
+      });
+        }
   }
   User.init({
-    eid:{type:DataTypes.INTEGER,
-          primaryKey:true,
-          allowNull:false,
-          autoIncrement:true,
-            unique:true}, 
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
     email: DataTypes.STRING,
