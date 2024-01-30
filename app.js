@@ -114,7 +114,7 @@ app.post("/signup", async (request, response) => {
       lastname: lname,
       email: email,
       password: hashedPassword,
-      user: "user"
+      user: "user",
     });
     response.redirect("/signin");
   } catch (error) {
