@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Enroll.init({
-    uID: DataTypes.INTEGER,
-    chID: DataTypes.INTEGER,
-    phID: DataTypes.INTEGER,
-    crsId: DataTypes.INTEGER,
+    userid: DataTypes.INTEGER,
+    pgid: DataTypes.INTEGER,
+    chid: DataTypes.INTEGER,
+    courseid: DataTypes.INTEGER,
     completed: DataTypes.BOOLEAN
   }, {
     sequelize,

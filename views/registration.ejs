@@ -15,10 +15,15 @@
  </div>
 <form action="/signup" method="post">
 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-<input type="text" name="fname" placeholder="enter your fname">
-<input type="text" name="lname" placeholder="enter your lmane">
+<input type="text" name="fname" placeholder="enter your first name">
+<input type="text" name="lname" placeholder="enter your last mane">
 <input type="email" name="email" placeholder="enter your email">
 <input type="password" name="password" placeholder="enter your password">
+<label for="user">DESIGNATION</label>
+                <select name="user" id="user">
+                    <option value="Educator">Educator</option>
+                    <option value="student">Student</option>
+                </select>
 <button type="submit"> submit</button>
 </form>
 

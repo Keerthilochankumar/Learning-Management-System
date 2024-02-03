@@ -10,8 +10,8 @@
 <body>
      <form action="/signin" method="post">
      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-     <input type="text" name="email" placeholder="enter your email">
-     <input type="text" name="password" placeholder="enter your password">
+     <input type="email" name="email" placeholder="enter your email">
+     <input type="password" name="password" placeholder="enter your password">
      <button type="submit"> login</button>
      </form>
  <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
