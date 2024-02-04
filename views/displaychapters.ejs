@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <h1 class="text-3xl flex justify-center align-center mx-auto"><%= title %></h1>
+<a href="/chapters/createchapters/<%= id %>" class="mt-20">
+   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+   <button type="submit">createchapter</button>
+</a>
+    <ul>
+        <% chapters.forEach(chapter => { %>
+
+<a href="/chapter/pages/<%= chapter.id %>">
+            <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
+            <li><%= chapter.chname %></li>
+            <li><%= chapter.chcontent %></li>
+            <li><%= chapter.id %></li>
+</a>
+</div>
+        <% }); %>
+    </ul>
+<script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
+</body>
+</html>

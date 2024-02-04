@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1><%= title %></h1>
+
+    <ul>
+        <% courses.forEach(course => { %>
+            <li><%= course.courseName %></li>
+        <% }); %>
+    </ul>
+
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

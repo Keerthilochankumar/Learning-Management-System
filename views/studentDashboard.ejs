@@ -8,8 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <h1>you have logined</h1>
-    <a href="/createcourses">createcourse</a>   
+    <h1>you have logined</h1>  
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button type="submit">Logout</button>
@@ -17,7 +16,7 @@
 <h1><%= title %></h1>
     <ul>
         <% courses.forEach(course => { %>
-<a href="/chapters/<%= course.id %>">
+<a href="">
             <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
             <li><%= course.courseTitle %></li>
             <li><%= course.courseContent %></li>
@@ -27,9 +26,6 @@
     </ul>
 </body>
 </html>
-    
-
-
 <script>
 </script>
 </body>
