@@ -9,10 +9,11 @@
 </head>
 <body>
     <form action="/createchapter" method="post">
+    <input type="hidden" name="id" value="<%= id %>">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <input type="text" name="chapter" placeholder="enter your chapter name">
-    <input type="text" name="description" placeholder="enter your chapter description">
-    <button type="button">submit</button>
+    <input type="text" name="description" placeholder="enter your chapter content">
+    <button type="submit">submit</button>
     </form>
     <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
 </body>
