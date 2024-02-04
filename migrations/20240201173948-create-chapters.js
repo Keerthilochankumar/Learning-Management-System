@@ -9,11 +9,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      chid: {
-        type: Sequelize.INTEGER
-      },
       chname: {
         type: Sequelize.STRING
+      },
+      chcontent: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

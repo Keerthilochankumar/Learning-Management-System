@@ -3,15 +3,19 @@
 <head>
         <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="../public/css/style.css">
     <meta name="csrf-token" content="<%= csrfToken %>" />
     <script src="https://cdn.tailwindcss.com"></script>
- 
+    
     <title>Learning Management System</title>
 </head>
-<body>
-<h1>Learning Management System</h1>
-<a href="/signup">signup</a>
-<a href="/signin">signin</a>
+<body class="h-screen w-full bg">
+<div class="flex flex-col mx-auto justify-center align-center">
+<h1 class=" flex flex-col font-bold text-3xl mx-auto justify-center align-center">Learning Management System</h1>
+<div class="flex flex-row mx-auto justify-center align-center">
+<button><a href="/signup" class="px-5">signup</a></button>
+<button><a href="/signin">signin</a></button>
+</div>
+</div>
 </body>
 </html>

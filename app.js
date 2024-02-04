@@ -8,12 +8,14 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const path = require("path");
 const flash = require("connect-flash");
-const { User, Course } = require("./models"); 
-
+const { User,Pages,Courses,Chapters,Enroll } = require("./models"); 
+const connnectEnsureLogin = require("connect-ensure-login");
+const { request } = require("express");
+const courses = require("./models/courses");
+const { where } = require("sequelize");
+const { lstat } = require("fs");
 const saltRounds = 10;
 app.use(flash());
-const userdetails=[];
-
 app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
@@ -60,15 +62,13 @@ passport.deserializeUser((id, done) => {
 passport.use('local', new LocalStrategy(
   { usernameField: 'email' },
   async function (email, password, done) {
-    try {
-      const user = await User.findOne({ where: { email: email } });
-      if (!user || !await bcrypt.compare(password, user.password)) {
+    try { 
+      const data = await User.findOne({ where: { email: email } });
+
+      if (!data || !await bcrypt.compare(password, data.password)) {
         return done(null, false, { message: 'Incorrect email or password.' });
-      }  const name= await user.firstname;
-              const eid= await user.eid;
-       userdetails.push(name,email,eid);
-       console.log("akj;oldhas;k:",userdetails);
-      return done(null, user);
+      }
+     return done(null,data);
     } catch (error) {
       return done(error);
     }
@@ -88,49 +88,147 @@ app.get("/signin", (request, response) => {
   return response.render("signin", { csrfToken: request.csrfToken() });
 });
 
-app.get("/dashboard", (request, response) => {
-  return response.render("test", { csrfToken: request.csrfToken() });
-});
-app.get("/courses/new",(request,response)=>{
+app.get("/createcourses",connnectEnsureLogin.ensureLoggedIn(),async (request,response)=>{
 return response.render("createcourse",{csrfToken: request.csrfToken()})
 })
-app.get("/createchapter",(request,response)=>{
-return response.render("createchapter",{csrfToken: request.csrfToken()})
+
+
+app.get("/createchapter:id",(req,res)=>{
+  const id = req.params.id;
+return res.render("createchapter",{csrfToken: req.csrfToken(),
+  id:id})
 })
+
+app.get("/Educator-dashboard",connnectEnsureLogin.ensureLoggedIn(),async(request,response)=>{
+    const users=request.user;
+    const existingCourses = await Courses.findAll({where:{ userId:users.id}});
+    let temp =[]
+    for( i=0;i<existingCourses.length;i++){
+      let obj = {
+      id : existingCourses[i].dataValues.id,
+      courseTitle: existingCourses[i].dataValues.coursetitle,
+      courseContent: existingCourses[i].dataValues.coursecontent
+    }
+    temp.push(obj);
+  }
+  console.log(temp)
+return response.render("Educatordashboard",{ 
+         title: `${users.firstname} - teacher Dashboard`,
+         courses: temp,
+         csrfToken: request.csrfToken()})
+});
+
+app.get("/student-dashboard",(request,response)=>{
+return response.render("",{csrfToken: request.csrfToken()})
+})
+
 app.post("/signin",
-  passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/signin',
-    failureFlash: true
-  }));
+ passport.authenticate("local", {
+    failureRedirect: "/",
+    failureFlash: true,
+  }),
+    (request, response) => {
+       const auth = request.user;
+    if ( auth.title === "Educator") {
+      response.redirect("/Educator-dashboard");
+    } else if (auth.title === "Student") {
+      response.redirect("/student-dashboard");
+    } else {
+      response.redirect("/login");
+    }
+  },
+);
 
 
 app.post("/signup", async (request, response) => {
-  const { fname, lname, email, password } = request.body;
+  const { fname, lname, email, password,user } = request.body;
+  if (!user) { 
+    request.flash("error please try again"," Designation can not be empty!");
+    return response.redirect("/signup");
+  }
+  if (email.length == 0) {
+    request.flash(" error please try again","Email can not be empty");
+    return response.redirect("/signup");
+  }
+  if (fname.length == 0) {
+    request.flash(" error please try again","First name cannot be empty");
+    return response.redirect("/signup");
+  }
+  if (lname.length == 0) {
+    request.flash(" error please try again","Last name cannot be empty");
+    return response.redirect("/signup");
+  }
+  if (password.length < 8) {
+    request.flash(" error please try again","Password must be at least 8 characters long");
+    return response.redirect("/signup");
+  }
   try {
+        console.log("khli:",user);
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     await User.create({
       firstname: fname,
       lastname: lname,
       email: email,
       password: hashedPassword,
-      user: "user",
+      title:user
     });
-    response.redirect("/signin");
+    return response.redirect("/signin");
   } catch (error) {
-    console.error(error);
-    response.status(500).send("Internal Server Error");
+    console.log(error);
   }
 });
 
 
 
+app.post("/createcourses",connnectEnsureLogin.ensureLoggedIn(),async (request,response)=>{
+  const {coursetitle,coursedes}= request.body;
+  if (coursetitle.length == 0) {
+      request.flash("error", "Course name cannot be empty!");
+      return response.redirect("/Educator-dashboard");
+    }
+    if (coursedes.length == 0) {
+      request.flash("error", "Description cannot be empty!");
+      return response.redirect("/Educator-dashboard"); 
+    }
+    try {
+      await Courses.create({
+        coursetitle:coursetitle ,
+        coursecontent:coursedes,
+        userId: request.user.id,
+      });
+    } catch (error) {
+      console.log(error);
+      return response.status(422).json(error);
+    }
+  },
+);
+
+
+
+app.post("/createchapter",connnectEnsureLogin.ensureLoggedIn(),async (request, response) => {
+  const courseId = request.body.id;
+    try {
+      await Chapters.create({
+        chName: request.body.chapter,
+        chcontent: request.body.description,
+        courseId,
+      });
+      response.redirect();
+    } catch (error) {
+      console.log(error);
+      return response.status(422).json(error);
+    }
+  },
+);
+
 
 app.get("/logout", (request, response) => {
-  request.logout();
-  response.redirect("/");
-  userdetails=[];
+   request.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    response.redirect("/");
+  });
 });
-
 
 module.exports = app;

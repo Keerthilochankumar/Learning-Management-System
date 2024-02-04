@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <h1>you have logined</h1>
+    <a href="/createcourses">createcourse</a>   
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button type="submit">Logout</button>
+    </form>
+<h1><%= title %></h1>
+    <ul>
+        <% courses.forEach(course => { %>
+        <!-- <button onclick="handleSubmit('<%= course.id %>')"> -->
+<a href="/createchapters">
+            <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
+            <li><%= course.courseTitle %></li>
+            <li><%= course.courseContent %></li>
+</a>
+</div>
+<!-- </button> -->
+        <% }); %>
+    </ul>
+    <!-- <script>
+    const handleSubmit =(id)=>{
+    fetch(`/createchapter`, {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+            courseId:id
+                })
+            }).then((data)=>{console.log(data)})
+        }
+</script> -->
+</body>
+</html>
+    
+
+
+<script>
+</script>
+</body>
+</html>

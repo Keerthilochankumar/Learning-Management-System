@@ -8,9 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <form action="/courses/new"  method="post">
+    <form action="/createcourses"  method="post">
    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
    <input type="text" name="coursetitle" placeholder="enter your course title">
+  <input type="text" name="coursedes" placeholder="enter your course description">
    <button type="submit">createcourse</button>
     </form>
 <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
