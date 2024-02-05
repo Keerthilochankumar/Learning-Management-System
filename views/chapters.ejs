@@ -9,21 +9,15 @@
 </head>
 <body>
     <h1 class="text-3xl flex justify-center align-center mx-auto"><%= title %></h1>
-<a href="/Educator-dashboard">back to dashboard</a>
-<a href="/chapters/createchapters/<%= id %>" class="mt-20">
-   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-   <button type="submit">createchapter</button>
-</a>
     <ul>
         <% chapters.forEach(chapter => { %>
-
-<a href="/chapter/pages/<%= chapter.id %>">
+ <a href="/student/<%= userid %>/enroll/<%= chapter.id %>">
             <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
             <li><%= chapter.chname %></li>
             <li><%= chapter.chcontent %></li>
             <li><%= chapter.id %></li>
-</a>
-</div>
+            </div> 
+    </a>
         <% }); %>
     </ul>
 <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>

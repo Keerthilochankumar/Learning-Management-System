@@ -4,23 +4,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn("Chapters", "courseId", {
+    await queryInterface.addColumn("Courses", "userId", {
       type: Sequelize.DataTypes.INTEGER,
     });
-
-    await queryInterface.addConstraint("Chapters", {
-      fields: ["courseId"],
-      type: "foreign key",
+    await queryInterface.addConstraint("Courses", {
+      fields: ["userId"],
+      type: "foreign key",  
       references: {
-        table: "Courses",
+        table: "Users",   
         field: "id",
       },
     });
-    
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn("Chapters", "courseId");
-  
+    await queryInterface.removeColumn("Courses", "userId");
+
   },
 };

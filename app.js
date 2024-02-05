@@ -76,13 +76,26 @@ app.get("/", (request, response) => {
   return response.render("index", { csrfToken: request.csrfToken() });
 });
 
+
 app.get("/signup", (request, response) => {
   return response.render("registration", { csrfToken: request.csrfToken() });
 });
 
+
 app.get("/signin", (request, response) => {
   return response.render("signin", { csrfToken: request.csrfToken() });
 });
+
+
+app.get("/changePassword", (request, reponse) => {
+  const Userdetail = request.user;
+  reponse.render("Passwordchange", {
+    title: "Change Password",
+    Userdetail,
+    csrfToken: request.csrfToken(),
+  });
+});
+
 
 app.get("/createcourses",connnectEnsureLogin.ensureLoggedIn(),async (request,response)=>{
 return response.render("createcourse",{csrfToken: request.csrfToken()})
@@ -103,8 +116,18 @@ console.log(id);
 return response.render("createpages",{  csrfToken: request.csrfToken(),
   id:id})
 });
-
-
+app.get("/student/:userid/course/:id",async(request,response)=>{
+const courseid= request.params.id;
+const userid= request.params.userid;
+const coursedetails = await Courses.findOne({where:{id:courseid}});
+const user= await User.findOne({where:{id:coursedetails.userId}})
+console.log("duyfuavjtfgiaukvujbukj",userid);
+return response.render("enroll",{  csrfToken: request.csrfToken(),
+  userid:userid,
+  courseid:courseid,
+  course:coursedetails,
+   user:user})
+});
 
 app.get("/chapters/:id",async (request, response)=>{
   const id = request.params.id;
@@ -127,6 +150,7 @@ app.get("/chapters/:id",async (request, response)=>{
   title:title
   }) 
 })
+
 
 app.get("/chapter/pages/:id",async(request,response)=>{
 const id = request.params.id;
@@ -151,8 +175,6 @@ const id = request.params.id;
 });
 
 
-
-
 app.get("/Educator-dashboard",connnectEnsureLogin.ensureLoggedIn(),async(request,response)=>{
     const users=request.user;
     const existingCourses = await Courses.findAll({where:{userId:users.id}});
@@ -173,30 +195,6 @@ return response.render("Educatordashboard",{
 });
 
 
-
-
-app.get("/student-dashboard",async(request,response)=>{
-const users=request.user;
-    const existingCourses = await Courses.findAll();
-    let temp =[]
-    for( i=0;i<existingCourses.length;i++){
-      let obj = {
-      id : existingCourses[i].dataValues.id,
-      courseTitle: existingCourses[i].dataValues.coursetitle,
-      courseContent: existingCourses[i].dataValues.coursecontent
-    }
-    temp.push(obj);
-  }
-  console.log(temp)
-return response.render("studentDashboard",{ 
-         title: `${users.firstname} - student Dashboard`,
-         courses: temp,
-         csrfToken: request.csrfToken()})
-});
-
-
-
-
 app.post("/signin",
  passport.authenticate("local", {
     failureRedirect: "/",
@@ -213,6 +211,14 @@ app.post("/signin",
     }
   },
 );
+app.get("/logout", (request, response) => {
+   request.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    response.redirect("/index");
+  });
+});
 
 
 app.post("/signup", async (request, response) => {
@@ -238,7 +244,6 @@ app.post("/signup", async (request, response) => {
     return response.redirect("/signup");
   }
   try {
-        console.log("khli:",user);
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     await User.create({
       firstname: fname,
@@ -247,12 +252,11 @@ app.post("/signup", async (request, response) => {
       password: hashedPassword,
       title:user
     });
-    return response.redirect("/signin");
+    return response.redirect("/signin").status(200);
   } catch (error) {
     console.log(error);
   }
 });
-
 
 
 app.post("/createcourses",connnectEnsureLogin.ensureLoggedIn(),async (request,response)=>{
@@ -278,7 +282,6 @@ app.post("/createcourses",connnectEnsureLogin.ensureLoggedIn(),async (request,re
     }
   },
 );
-
 
 
 app.post("/createchapter",connnectEnsureLogin.ensureLoggedIn(),async (request, response) => {
@@ -317,14 +320,98 @@ app.post("/createpages",connnectEnsureLogin.ensureLoggedIn(),async (request, res
 );
 
 
-
-app.get("/logout", (request, response) => {
-   request.logout((err) => {
-    if (err) {
-      return next(err);
+app.get("/student-dashboard",async(request,response)=>{
+const users=request.user;
+    const existingCourses = await Courses.findAll();
+    let temp =[]
+    for( i=0;i<existingCourses.length;i++){
+      let obj = {
+      id : existingCourses[i].dataValues.id,
+      courseTitle: existingCourses[i].dataValues.coursetitle,
+      courseContent: existingCourses[i].dataValues.coursecontent
     }
-    response.redirect("/index");
-  });
+    temp.push(obj);
+  }
+  console.log(temp)
+return response.render("studentDashboard",{ 
+         title: `${users.firstname} - student Dashboard`,
+         courses: temp,
+         userid: users.id,
+         csrfToken: request.csrfToken()})
+});
+
+
+
+app.get("/student/:userid/course/:id",async(request,response)=>{
+const id = request.params.id;
+const userid= request.params.userid;
+  console.log(id);
+  console.log(userid);
+  const val = await Courses.findByPk(id);
+  const title = val.dataValues.coursetitle;
+  const data = await Chapters.findAll({where:{courseId:id}})
+  let temp = [];
+  for(i =0;i<data.length;i++){
+    let obj= {
+      id : data[i].dataValues.id,
+      chname: data[i].dataValues.chname,
+      chcontent : data[i].dataValues.chcontent,
+    }
+    temp.push(obj);
+}
+  return response.render("chapters",{csrfToken: request.csrfToken(),
+  id:id,
+  userid:userid,
+  chapters:temp,
+  title:title
+  })
+})
+
+app.post("/enroll",async (request,response)=>{
+const user_id = request.body.userid;
+const course_id= request.body.id;
+    const existingEnrollment = await Enroll.findOne({
+      where: { userid: user_id,courseid: course_id },
+    });
+    if (existingEnrollment) {
+      return response.status(400).json({ message: "You are already enrolled in this course." });
+    }
+   else{
+    await Enroll.create({
+      userid: user_Id,
+      courseid:course_id
+    });
+   }
+    response.redirect("/student-dashboard");
+  }
+);
+
+
+app.post("/changePassword", async (request, response) => {
+  const userEmail = request.body.email;
+  const newPassword = request.body.password;
+  const oldpassword= request.body.oldpassword;
+  try {
+    const user = await User.findOne({ where: { email: userEmail } });
+    if (!user) {
+      request.flash("error", "User with that email does not exist.");
+      return response.redirect("/index");
+    }
+    else if( newPassword==oldpassword){
+        request.flash("error","the new password is same as old password");
+        return response.redirect("/index");
+         }
+    const hashedPwd = await bcrypt.hash(newPassword, saltRounds);
+    await user.update({ password: hashedPwd });
+    if (user.title === "Educator") {
+      return response.redirect("/Educator-dashboard");
+    } else {
+      return response.redirect("/student-dashboard");
+    }
+  } catch (error) {
+    console.log(error);
+    return response.redirect("/index");
+  }
 });
 
 module.exports = app;

@@ -9,7 +9,8 @@
 </head>
 <body>
     <h1>you have logined</h1>
-    <a href="/createcourses">createcourse</a>   
+    <a href="/createcourses">createcourse</a>  
+   <a href="/changePassword">changePassword</a> 
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button type="submit">Logout</button>

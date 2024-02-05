@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <h1 class="text-3xl flex justify-center align-center mx-auto">enrollment</h1>
+    <ul>
+            <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
+            <li><%= course.coursetitle %></li>
+            <li><%= course.coursecontent %></li>
+            <li> by <%= user.firstname %></li>
+               <li> courseid: <%= courseid %></li>        
+           </div>
+    </ul>
+  <form action="/enroll" method="post">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input type="hidden" name="id" value="<%= courseid %>">
+  <input type="hidden" name="userid" value="<%= userid %>">
+  <button type="submit"> enroll now</button>
+</form>
+ 
+<script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
+</body>
+</html>

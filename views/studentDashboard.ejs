@@ -13,10 +13,12 @@
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button type="submit">Logout</button>
     </form>
+    <a href="/changePassword">changePassword</a>
 <h1><%= title %></h1>
-    <ul>
+  
+      <ul>
         <% courses.forEach(course => { %>
-<a href="">
+<a href="/student/<%= userid%>/course/<%= course.id %>">
             <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
             <li><%= course.courseTitle %></li>
             <li><%= course.courseContent %></li>
@@ -24,9 +26,5 @@
 </div>
         <% }); %>
     </ul>
-</body>
-</html>
-<script>
-</script>
 </body>
 </html>
