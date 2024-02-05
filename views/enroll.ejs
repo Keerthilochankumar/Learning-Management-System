@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
-    <meta name="csrf-token" content="<%= csrfToken %>" />
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/styles.css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <h1 class="text-3xl flex justify-center align-center mx-auto">enrollment</h1>
-    <ul>
-            <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
-            <li><%= course.coursetitle %></li>
-            <li><%= course.coursecontent %></li>
-            <li> by <%= user.firstname %></li>
-               <li> courseid: <%= courseid %></li>        
-           </div>
-    </ul>
-  <form action="/enroll" method="post">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-  <input type="hidden" name="id" value="<%= courseid %>">
-  <input type="hidden" name="userid" value="<%= userid %>">
-  <button type="submit"> enroll now</button>
-</form>
- 
-<script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
+  <header class="text-3xl text-center font-bold py-8 bg-gray-800 text-gray-100">
+    Enrollment Details
+  </header>
+
+  <main class="container mx-auto py-8">
+    <section class="flex flex-col mx-auto border border-gray-300 rounded-md p-4">
+      <h2 class="text-lg font-medium mb-2">Course Information</h2>
+      <ul class="list-disc space-y-2">
+        <li><strong>Course Title:</strong> <%= course.coursetitle %></li>
+        <li><strong>Course Content:</strong> <%= course.coursecontent %></li>
+        <li><strong>Instructor:</strong> <%= user.firstname %></li>
+        <li><strong>Course ID:</strong> <%= courseid %></li>
+      </ul>
+    </section>
+
+    <form action="/enroll" method="post" class="text-center mt-4">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="id" value="<%= courseid %>">
+      <input type="hidden" name="userid" value="<%= userid %>">
+      <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-md shadow-sm">
+        Enroll Now
+      </button>
+    </form>
+  </main>
+
+  <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
 </body>
 </html>

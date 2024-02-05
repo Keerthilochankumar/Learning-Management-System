@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/css/style.css">
-    <meta name="csrf-token" content="<%= csrfToken %>" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <title>Learning Management System</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../public/css/style.css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Learning Management System</title>
 </head>
-<body class="h-screen w-full bg">
-<div class="flex flex-col mx-auto justify-center align-center">
-<h1 class=" flex flex-col font-bold text-3xl mx-auto justify-center align-center">Learning Management System</h1>
-<div class="flex flex-row mx-auto justify-center align-center">
-<button><a href="/signup" class="px-5">signup</a></button>
-<button><a href="/signin">signin</a></button>
-</div>
-</div>
+<body class="h-screen w-full bg-gray-100">
+  <main class="container mx-auto flex flex-col items-center justify-center px-4 py-16">
+    <h1 class="text-3xl font-bold text-center mb-8">Learning Management System</h1>
+    <div class="flex flex-col items-center">
+      <a href="/signup" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-md">Sign Up</a>
+      <a href="/signin" class="mt-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-full shadow-md">Sign In</a>
+    </div>
+  </main>
 </body>
 </html>
