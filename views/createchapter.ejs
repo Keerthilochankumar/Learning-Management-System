@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
-    <meta name="csrf-token" content="<%= csrfToken %>" />
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/styles.css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-   <h1> add your chapter</h1>
+  <div class="container mx-auto py-8">
+    <h2>Add Your Chapter</h2>
+
     <form action="/createchapter" method="post">
-    <input type="hidden" name="id" value="<%= id %>">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <input type="text" name="chapter" placeholder="enter your chapter name">
-    <input type="text" name="description" placeholder="enter your chapter content">
-    <button type="submit">submit</button>
+      <input type="hidden" name="id" value="<%= id %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="mb-4">
+        <label for="chapter" class="block text-gray-700 text-sm font-bold mb-2">Chapter Name:</label>
+        <input type="text" id="chapter" name="chapter" placeholder="Enter Chapter Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+      </div>
+
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Chapter Content:</label>
+        <textarea id="description" name="description" placeholder="Enter Chapter Content" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+      </div>
+
+      <button type="submit" class="inline-flex items-center px-3 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-md shadow-sm">
+        Submit
+      </button>
     </form>
-    <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
+  </div>
+
+  <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
 </body>
 </html>

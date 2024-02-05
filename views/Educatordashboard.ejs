@@ -1,37 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
-    <meta name="csrf-token" content="<%= csrfToken %>" />
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/styles.css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <h1>you have logined</h1>
-    <a href="/createcourses">createcourse</a>  
-   <a href="/changePassword">changePassword</a> 
-    <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit">Logout</button>
+  <header class="text-2xl text-center font-bold py-8 bg-gray-800 text-gray-100">
+    You're Logged In! - <%= title %>
+  </header>
+
+  <main class="container mx-auto py-8">
+    <section class="flex flex-col items-center mb-8">
+      <a href="/createcourses" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-md shadow-sm">
+        Create Course
+      </a>
+      <a href="/changePassword" class="inline-flex items-center px-4 py-2 mt-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold rounded-md shadow-sm">
+        Change Password
+      </a>
+    </section>
+
+    <form action="/logout" method="post" class="text-center">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-500 hover:bg-red-700 text-white font-bold rounded-md shadow-sm">
+        Logout
+      </button>
     </form>
-<h1><%= title %></h1>
-    <ul>
-        <% courses.forEach(course => { %>
-<a href="/chapters/<%= course.id %>">
-            <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
-            <li><%= course.courseTitle %></li>
-            <li><%= course.courseContent %></li>
-</a>
-</div>
-        <% }); %>
+
+    <ul class="list-disc space-y-4">
+      <% courses.forEach(course => { %>
+        <li class="border-2 border-gray-300 rounded-md p-4 hover:bg-gray-100 transition duration-200 ease-in-out">
+          <a href="/chapters/<%= course.id %>" class="flex items-center">
+            <h3 class="text-lg font-medium mr-4">
+              <%= course.courseTitle %>
+            </h3>
+            <span class="text-gray-500 font-medium">
+              <%= course.courseContent %>
+            </span>
+          </a>
+        </li>
+      <% }); %>
     </ul>
-</body>
-</html>
-    
+  </main>
 
-
-<script>
-</script>
+  <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
 </body>
 </html>

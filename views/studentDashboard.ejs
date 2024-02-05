@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
-    <meta name="csrf-token" content="<%= csrfToken %>" />
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/styles.css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title><%= title %></title>
 </head>
-<body>
-    <h1>you have logined</h1>  
-    <form action="/logout" method="post">
+<body class="h-screen flex flex-col items-center justify-center bg-gray-100">
+  <header class="w-full bg-gray-800 py-4 text-white text-center text-2xl font-bold">
+    Learning Management System
+  </header>
+
+  <main class="container mx-auto p-8 flex flex-col gap-4">
+    <h1 class="text-3xl font-bold">Logged in!</h1>
+
+    <div class="flex items-center justify-between pt-4">
+      <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit">Logout</button>
-    </form>
-    <a href="/changePassword">changePassword</a>
-<h1><%= title %></h1>
-  
-      <ul>
+        <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md shadow-md">Logout</button>
+      </form>
+      <a href="/changePassword" class="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md shadow-md">Change Password</a>
+    </div>
+
+    <section class="mt-8">
+      <h2>Courses</h2>
+      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <% courses.forEach(course => { %>
-<a href="/student/<%= userid%>/course/<%= course.id %>">
-            <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
-            <li><%= course.courseTitle %></li>
-            <li><%= course.courseContent %></li>
-</a>
-</div>
+          <li class="border rounded-md shadow-md p-4 hover:bg-gray-100">
+            <a href="/student/<%= userid%>/course/<%= course.id %>" class="block text-lg font-medium mb-2">
+              <%= course.courseTitle %>
+            </a>
+            <p class="text-gray-600"><%= course.courseContent %></p>
+          </li>
         <% }); %>
-    </ul>
+      </ul>
+    </section>
+  </main>
 </body>
 </html>

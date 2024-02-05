@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
-    <meta name="csrf-token" content="<%= csrfToken %>" />
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/styles.css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <h1 class="text-3xl flex justify-center align-center mx-auto"><%= title %></h1>
-    <ul>
-        <% chapters.forEach(chapter => { %>
- <a href="/student/<%= userid %>/enroll/<%= chapter.id %>">
-            <div class="border-2 border-gray-900 flex flex-col mx-auto justify-center align-center">
-            <li><%= chapter.chname %></li>
-            <li><%= chapter.chcontent %></li>
-            <li><%= chapter.id %></li>
-            </div> 
-    </a>
-        <% }); %>
+  <header class="text-4xl text-center font-bold py-8 bg-gray-800 text-gray-100">
+    <%= title %>
+  </header>
+
+  <main class="container mx-auto py-8">
+    <ul class="list-disc space-y-4">
+      <% chapters.forEach(chapter => { %>
+        <a href="/student/<%= userid %>/enroll/<%= chapter.id %>" class="flex border-2 border-gray-300 hover:border-gray-500 rounded-md p-4 transition duration-200 ease-in-out">
+          <div class="flex-grow">
+            <h3 class="text-lg font-medium mb-2">
+              <%= chapter.chname %>
+            </h3>
+            <p class="text-gray-700">
+              <%= chapter.chcontent %>
+            </p>
+          </div>
+          <div class="text-gray-500 font-medium">
+            <%= chapter.id %>
+          </div>
+        </a>
+      <% }); %>
     </ul>
-<script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
+  </main>
+
+  <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
 </body>
 </html>
