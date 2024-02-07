@@ -1,4 +1,4 @@
-![lms-4](https://github.com/Keerthilochankumar/Learning-Management-System/assets/121881902/74af121d-6565-4d52-a7ab-f9cd273c64a0)![lms-3](https://github.com/Keerthilochankumar/Learning-Management-System/assets/121881902/c0164546-3fbf-4fdc-8d5d-35c6e384edb1) Learning Management System:
+Learning Management System:
 A Learning Management System (LMS) is a software application designed to deliver, manage, and track educational content. It provides a centralized platform for learners to access course materials.
 
 Web Application Main Functionalities
