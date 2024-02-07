@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
       Pages.belongsToMany(models.User, {
         through: models.Enroll,
-        foreignKey: "pageId",
+        foreignKey: "pgid",
       });
     }
   }

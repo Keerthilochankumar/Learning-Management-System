@@ -15,30 +15,29 @@
 
   <main class="container mx-auto p-8 flex flex-col gap-4">
     <h1 class="text-3xl font-bold">Logged in!</h1>
-    <a href=""></a> 
+    <a href="/student-dashboard" class="block text-lg font-medium mb-2">back to student-dashboard </a> 
 
     <div class="flex items-center justify-between pt-4">
       <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md shadow-md">Logout</button>
       </form>
-       <a href="/student/<%= userid%>/mycourse" class="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md shadow-md">my courses</a>
-      <a href="/changePassword" class="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md shadow-md">Change Password</a>
     </div>
-
-    <section class="mt-8">
-      <h2>Courses</h2>
-      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <% courses.forEach(course => { %>
-          <li class="border rounded-md shadow-md p-4 hover:bg-gray-100">
-            <a href="/student/<%= userid%>/course/<%= course.id %>" class="block text-lg font-medium mb-2">
-              <%= course.courseTitle %>
-            </a>
-            <p class="text-gray-600"><%= course.courseContent %></p>
-          </li>
-        <% }); %>
-      </ul>
-    </section>
+<section class="mt-8">
+  <h2>Courses</h2>
+  <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% courses.forEach((course, index) => { %>
+      <li class="border rounded-md shadow-md p-4 hover:bg-gray-100">
+        <a href="/student/<%= uid %>/mycourse/<%= course.id %>" class="block text-lg font-medium mb-2">
+          <%= course.courseTitle %>
+        </a>
+        <p class="text-gray-600"><%= course.courseContent %></p>
+        <!-- Additional information for each course -->
+        <p class="text-gray-600">PROGRESS: <%= per[index].toFixed(2) %> %</p>
+      </li>
+    <% }); %>        
+  </ul>
+</section>
   </main>
 </body>
 </html>

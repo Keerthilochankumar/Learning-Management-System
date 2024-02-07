@@ -22,7 +22,7 @@
         <li><strong>Course ID:</strong> <%= courseid %></li>
       </ul>
     </section>
-
+    
     <form action="/enroll" method="post" class="text-center mt-4">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <input type="hidden" name="id" value="<%= courseid %>">
@@ -32,6 +32,23 @@
       </button>
     </form>
   </main>
+     <ul class="list-disc space-y-4">
+      <% chapters.forEach(chapter => { %>
+        <a  class="flex items-center border-2 border-gray-300 hover:border-gray-500 rounded-md p-4 transition duration-200 ease-in-out">
+          <div class="flex-grow">
+            <h3 class="text-lg font-medium mb-2">
+              <%= chapter.chname %>
+            </h3>
+            <p class="text-gray-700">
+              <%= chapter.chcontent %>
+            </p>
+          </div>
+          <div class="text-gray-500 font-medium">
+            <%= chapter.id %>
+          </div>
+        </a>
+      <% }); %>
+    </ul>
 
   <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
 </body>

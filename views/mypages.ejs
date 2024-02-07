@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/styles.css">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <header class="text-4xl text-center font-bold py-8 bg-gray-800 text-gray-100">
+    <%= title %>
+  </header>
+
+  <main class="container mx-auto py-8">
+    <div class="flex justify-between items-center mb-4">
+      <a href="/student-dashboard" class="text-gray-700 hover:text-gray-500 transition duration-200 ease-in-out">
+        Back to Dashboard
+      </a>
+    </div>
+    <ul class="list-disc space-y-4">
+      <% pages.forEach(page => { %>
+       <div class="flex items-center border-2 border-gray-300 hover:border-gray-500 rounded-md p-4 transition duration-200 ease-in-out">
+          <div class="flex-grow">
+            <h3 class="text-lg font-medium mb-2">
+              <%= page.pgtitle %>
+            </h3>
+            <p class="text-gray-700">
+              <%= page.pgcontent %>
+            </p>
+          </div>
+         <form action="/mark-pg-as-completed" method="post">
+         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+         <input type="hidden" name="userid" value="<%= userid %>">
+         <input type="hidden" name="chapterid" value="<%= chapterid %>">
+         <input type="hidden" name="courseid" value="<%= courseid %>">
+          <input type="hidden" name="pageid" value="<%= page.id %>">
+         <button type="submit"> mark as completed</button> 
+        </form>
+       </div>
+      <% }); %>
+    </ul>
+  </main>
+
+  <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
+</body>
+</html>
