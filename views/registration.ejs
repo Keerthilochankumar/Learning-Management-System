@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styles.css">
-    <meta name="csrf-token" content="<%= csrfToken %>" />
-    <script src="https://cdn.tailwindcss.com"></script>
- 
-    <title>Learning Management System</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <meta name="csrf-token" content="<%= csrfToken %>" />
+  <title>Learning Management System</title>
 </head>
-<body>
-<div> 
- <h1>educator signup</h1>
- </div>
-<form action="/signup" method="post">
-<input type="hidden" name="_csrf" value="<%= csrfToken %>">
-<input type="text" name="fname" placeholder="enter your first name">
-<input type="text" name="lname" placeholder="enter your last mane">
-<input type="email" name="email" placeholder="enter your email">
-<input type="password" name="password" placeholder="enter your password">
-<label for="user">DESIGNATION</label>
-                <select name="user" id="user">
-                    <option value="Educator">Educator</option>
-                    <option value="student">Student</option>
-                </select>
-<button type="submit"> submit</button>
-</form>
+<body class="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md w-full">
+    <h1 class="text-2xl font-bold mb-4">Educator Signup</h1>
 
-   <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
+    <form action="/signup" method="post">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="mb-4">
+        <label for="fname" class="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+        <input type="text" name="fname" id="fname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" placeholder="Enter your first name">
+      </div>
+
+      <div class="mb-4">
+        <label for="lname" class="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+        <input type="text" name="lname" id="lname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" placeholder="Enter your last name">
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+        <input type="email" name="email" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" placeholder="Enter your email">
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+        <input type="password" name="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" placeholder="Enter your password">
+      </div>
+
+      <div class="mb-4">
+        <label for="user" class="block text-gray-700 text-sm font-bold mb-2">Designation</label>
+        <select name="user" id="user" class="block appearance-none w-full border rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+          <option value="Educator">Educator</option>
+          <option value="student">Student</option>
+        </select>
+      </div>
+
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">Submit</button>
+    </form>
+  </div>
+
+  <script>var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");</script>
 </body>
 </html>

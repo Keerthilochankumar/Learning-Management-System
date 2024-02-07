@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let ctx = null;
+        let optionsL = null;
+        let optionsCount = null;
+    </script>
+    <title>Report</title>
+</head>
+<body class="bg-gray-200 p-6">
+    <div class="max-w-3xl mx-auto">
+        <div class="py-3 justify-between">
+           <a href="/Educator-dashboard">back to Dashboard</a>
+            <div class="flex flex-col justify-evenly mb-6">
+                <span class="text-4xl font-bold text-black-200 w-full bg-gray-100">Participation:</span>
+                <div class="flex flex-col text-black-400">
+                    <ul class="list-disc space-y-4">
+                        <% for(var i=0;i<coursetitles.length;i++){ %>
+<div class="border-2 border-gray-300">
+                            <li class="text-2xl"><%= coursetitles[i] %></li>
+                            <li class="text-xl">Total students: <%= totalstudents %></li>
+                            <li class="text-xl">Count Of enrolled students: <%= enrolled[i] %></li>
+</div>
+
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            <div class="w-full flex flex-col mt-6">
+                <span class="text-3xl mb-4">Graph:</span>
+                <div class="w-full h-96">
+                    <canvas class="object-contain" id="students" style="height: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        ctx = document.getElementById('students');
+        completed = "<%=coursetitles%>";
+        pending = "<%= enrolled %>";
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: completed,
+                datasets: [{
+                    label: "Enrolled Count",
+                    data: pending,
+                    borderColor: "#000000",
+                    backgroundColor: [
+                        'rgb(113, 232, 245)',
+                        'rgb(245, 167, 113)'
+                    ],
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</body>
+</html>
