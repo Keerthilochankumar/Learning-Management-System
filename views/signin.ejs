@@ -11,6 +11,11 @@
 <body class="h-screen flex items-center justify-center bg-gray-100">
   <main class="container mx-auto p-8 rounded-lg shadow-md bg-white">
     <h1 class="text-3xl font-bold mb-4">Sign In</h1>
+    <% if (messages.error && messages.error.length > 0) { %>
+      <script>
+        alert("<%= messages.error[0] %>");
+      </script>
+    <% } %>
     <form action="/signin" method="post" class="grid grid-cols-1 gap-4">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
@@ -24,6 +29,6 @@
         Sign In
       </button>
     </form>
-  </main>
+</main>
 </body>
 </html>

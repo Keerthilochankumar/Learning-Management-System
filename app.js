@@ -379,23 +379,27 @@ app.post("/mark-pg-as-completed", async (request, response) => {
       })
 });
 
-
-app.post("/signin",
- passport.authenticate("local", {
-    failureRedirect: "/",
+app.post("/signin", (request, response, next) => {
+  passport.authenticate("local", {
+    failureRedirect: "/signin",
     failureFlash: true,
-  }),
-    (request, response) => {
-       const auth = request.user;
-    if ( auth.title === "Educator") {
-      response.redirect("/Educator-dashboard");
-    } else if (auth.title === "student") {
-      response.redirect("/student-dashboard");
-    } else {
-      response.redirect("/signin");
+  })(request, response, (err) => {
+    if (err) {
+      return next(err);
     }
-  },
-);
+    const auth = request.user;
+    if (auth) {
+      if (auth.title === "Educator") {
+        response.redirect("/Educator-dashboard");
+      } else if (auth.title === "student") {
+        response.redirect("/student-dashboard");
+      }
+    } else {
+      const messages = request.flash();
+      response.render("signin", { messages, csrfToken: request.csrfToken() });
+    }
+  });
+});
 
 
 app.post("/logout", (request, response) => {
